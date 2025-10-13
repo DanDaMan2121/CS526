@@ -62,16 +62,19 @@ for fileInFolder in os.listdir(folderName):
         # print(result)
         myAns.append(result)
 
-ansFolderName = './ansGhostbusters'
-count = 0
-for fileInFolder in os.listdir(ansFolderName):
-    fileName = ansFolderName + '/' + fileInFolder
-    with open(fileName, 'r') as file:
-        for line in file:
-            newLine = line.strip('\n')
-            if newLine == myAns[count]:
-                print(newLine, ' == ', myAns[count])
-            else:
-                print(newLine, ' != ', myAns[count])
-            count += 1
+
+# Compares your answers with another folder's
+
+# ansFolderName = './ansGhostbusters'
+# count = 0
+# for fileInFolder in os.listdir(ansFolderName):
+#     fileName = ansFolderName + '/' + fileInFolder
+#     with open(fileName, 'r') as file:
+#         for line in file:
+#             newLine = line.strip('\n')
+#             if newLine == myAns[count]:
+#                 print(newLine, ' == ', myAns[count])
+#             else:
+#                 print(newLine, ' != ', myAns[count])
+#             count += 1
     
