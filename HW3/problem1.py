@@ -20,7 +20,7 @@
 import os
 
 
-folderPath = '/testpalendrome'
+folderName = './testPalendrome'
 
 def palindrome(s):
     head = 0
@@ -32,11 +32,35 @@ def palindrome(s):
         tail -= 1
     return True
 
+myAns = []
 
-for fileName in os.listdir(folderPath)
-    if fileName.endswith('.txt'):
-        filePath = os.path.join(folderPath, fileName)
-        with open(filePath, 'r') as file:
-            for line in file:
-                palindrome(line)
-                print('ding')
+for fileInFolder in os.listdir(folderName):
+    fileName = folderName + '/' + fileInFolder
+    with open(fileName, 'r') as file:
+        myTestResults = []
+        count = 0
+        for line in file:
+            newLine = line.strip('\n')
+            if palindrome(newLine):
+                myTestResults.append('True')
+                count += 1
+            else:
+                myTestResults.append('False')
+        myTestResults.append(count)
+        myAns.append(myTestResults)
+
+fileCount = 0
+folderName = './ansPalendrome'
+for fileInFolder in os.listdir(folderName):
+    fileName = folderName + '/' + fileInFolder
+    with open(fileName, 'r') as file:
+        count = 0
+        for line in file:
+            newLine = line.strip('\n')
+            if newLine != str(myAns[fileCount][count]):
+                print('Error on file:', fileCount, 'line:', count, 'ans:', newLine, "myAns:", myAns[fileCount][count])
+                break
+            count += 1
+    print('File:', fileCount, 'passed with no problems!')
+    fileCount += 1
+
