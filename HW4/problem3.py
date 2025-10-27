@@ -9,9 +9,7 @@ myList = []
 with open (fileName, 'r') as file:
     
     for i, line in enumerate(file):
-        if i == 1:
-            t = int(line)
-        if i > 1:
+        if i > 0:
             newLine = line.strip('\n')
             myList.append(newLine)
 
