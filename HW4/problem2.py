@@ -11,6 +11,7 @@ with open (fileName, 'r') as file:
             newLine = line.strip('\n')
             myList = newLine.split(' ')
 intList = list(map(int, myList))
+
 def smallest_number_elements(arr, T):
    # Sort array in descending order
     arr_sorted = sorted(arr, reverse=True)

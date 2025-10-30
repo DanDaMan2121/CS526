@@ -1,6 +1,6 @@
 import math
 
-fileName = './testRightAngle/rightangles_3.txt'
+fileName = './testRightAngle/rightangles_2.txt'
 
 # cleanSet = set()
 myList = []
@@ -85,6 +85,7 @@ def uRightTriangle(list):
 
                 degrees = math.degrees(radians)
                 degList.append(degrees)
+        print(degList)
         newLen = len(degList)
         # print(newLen)
         for i in range(newLen):
