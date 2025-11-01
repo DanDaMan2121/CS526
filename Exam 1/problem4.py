@@ -1,7 +1,7 @@
 import math
 import sys
 
-def isValidPuzzle(myList):
+def isValidPuzzle(myList, validSymbols):
     # Generate rows
     rows = []
     for e in myList:
@@ -48,6 +48,11 @@ def isValidPuzzle(myList):
             # print('row #', i, rows[i]) # Get row error #
             isClean = False
             break
+        for e in checkDupe:
+            if e not in validSymbols:
+                if e != '.':
+                    isClean = False
+                    break
     # print('Rows:', isClean) # Get rows validity
 
     # Test cols
@@ -66,9 +71,13 @@ def isValidPuzzle(myList):
         setLen = len(checkDupe)
         if count != setLen:
             # print('col #', i, cols[i]) # Get col error #
-
             isClean = False
             break
+        for e in checkDupe:
+            if e not in validSymbols:
+                if e != '.':
+                    isClean = False
+                    break
     # print('Cols:', isClean) # Get cols validity
     
     # Test subMatrix
@@ -89,6 +98,13 @@ def isValidPuzzle(myList):
             # print('matrix', i,  subMatrix[i]) # get matrix error #
             isClean = False
             break
+        for e in checkDupe:
+            if e not in validSymbols:
+                if e != '.':
+                    isClean = False
+                    break
+                
+
     # print('subMatrix:', isClean) # Get subMatrix validity
     return isClean
 
@@ -106,7 +122,8 @@ if __name__ == '__main__':
                 else:
                     newLine = line.strip('\n')
                     myList.append(newLine)
-        validity = isValidPuzzle(myList)
+        validity = isValidPuzzle(myList, validSymbols)
+        
         if validity:
             print('The board is valid')
         else:
