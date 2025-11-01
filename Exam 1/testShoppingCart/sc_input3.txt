@@ -1,2 +1,2 @@
 7
-dinner,dinner,dinner,dinner,dinner,breakfast,lunch
+dinner,dinner,dinner,dinner,dinner,breakfast,lunch,breakfast,snack,dinner,lunch,dinner,dinner,dinner,dinner,dinner

@@ -1,31 +1,11 @@
 import sys
-
-
-
-
-fileName = 'testSnowFall/snowfall_input5.txt'
-
-# cleanSet = set()
-myList = []
-
-
-with open (fileName, 'r') as file:
-    
-    for i, line in enumerate(file):
-        if i > 0:
-            newLine = line.strip('\n')
-            myList.append(newLine)
-myList = myList[0].split(' ')
-intList = list(map(int, myList))
-
-
 def myFunction (list):
     length = len(list)
+    if length < 3:
+        return False
     val = list[-1]
     compare = val / 2
     for i in range(length):
-        if length < 3:
-            return False
         if i > length - 3:
             return False
         else:
@@ -39,10 +19,24 @@ def myFunction (list):
         
 
 
-print(intList)
-ans = myFunction(intList)
+if __name__ == '__main__':
 
-if ans:
-    print('YES')
-else:
-    print('NO')
+    if len(sys.argv) > 1:
+        fileName = sys.argv[1]
+        myList = []
+        myLine = ''
+        with open (fileName, 'r') as file: 
+            for i, line in enumerate(file):
+                if i > 0:
+                    myLine += line
+                    newLine = line.strip('\n')
+                    myList.append(newLine)
+        myList = myList[0].split(' ')
+        intList = list(map(int, myList))
+
+
+    ans = myFunction(intList)
+    if ans:
+        print(myLine, 'solution: yes')
+    else:
+        print(myLine, 'solution: no')
