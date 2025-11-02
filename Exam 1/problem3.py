@@ -25,7 +25,6 @@ def myFunction(myList):
                 switch = True
         tempVal = len(basket1) + len(basket2)
         if tempVal > count:
-            print(count)
             count = tempVal
 
     ans = (basket1, basket2)
@@ -41,6 +40,6 @@ if __name__ == '__main__':
                     newLine = line.strip('\n')
                     myList.append(newLine)
         myList = myList[0].split(',')
-        print(myList)
+        # print(myList)
         count = myFunction(myList)
         print(count, 'items were selected')
