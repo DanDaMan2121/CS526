@@ -1,20 +1,38 @@
 import sys
 
+
 def longestSequence(A, B):
     m, n = len(A), len(B)
-    dpA = [1] * m
-    dpB = [1] * n
+    dpA = [[a] for a in A]  # sequences ending at A[i]
+    dpB = [[b] for b in B]  # sequences ending at B[j]
 
     for i in range(m):
         for j in range(n):
-            # if A[i] can follow B[j]
-            if B[j] < A[i]:
-                dpA[i] = max(dpA[i], dpB[j] + 1)
-            # if B[j] can follow A[i]
-            if A[i] < B[j]:
-                dpB[j] = max(dpB[j], dpA[i] + 1)
+            if i == j:
+                continue  # skip same index pairs
 
-    return max(max(dpA), max(dpB))
+            # From B[j] → A[i] (must have j < i for subsequence order)
+            if j < i and B[j] < A[i]:
+                if len(dpB[j]) + 1 > len(dpA[i]):
+                    dpA[i] = dpB[j] + [A[i]]
+
+            # From A[i] → B[j] (must have i < j for subsequence order)
+            if i < j and A[i] < B[j]:
+                if len(dpA[i]) + 1 > len(dpB[j]):
+                    dpB[j] = dpA[i] + [B[j]]
+
+    # Pick the best sequence overall
+    bestA = max(dpA, key=len, default=[])
+    bestB = max(dpB, key=len, default=[])
+    best = bestA if len(bestA) >= len(bestB) else bestB
+
+    return best
+
+
+
+
+
+
 
 
 
@@ -40,12 +58,8 @@ if __name__ == '__main__':
                     newLine = line.strip('\n')
                     list2 = list(map(int, newLine.split(' ')))
                     
-        if size1 < size2:
-            size = size1
-        else:
-            size = size2
-        # print(size)
-        list3 = longestSequence(list1, list2)
-        # print(len(list3))
-        print(list3)
-        
+      
+        sequences = longestSequence(list1, list2)
+        for s in sequences:
+            print(s)
+        print(f"\nTotal sequences: {len(sequences)}")
