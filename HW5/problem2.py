@@ -3,52 +3,42 @@ import sys
 myDict =  {'.': 'E', '..': 'I', '.-': 'A', '---': 'O', '..-': 'U'}
 
 def codeDecryption(myCode, mySize):
-   
-    myList = [[0 for j in range(mySize)] for i in range(3)]
+    # 3 rows for vowel substrings of length 1, 2, and 3
+    dp = [[0] * mySize for _ in range(3)]
 
+    # Helper: compute DP update for a given row and index
+    def update(row, j):
+        length = row + 1  # row 0 = length 1, row 1 = length 2, row 2 = length 3
+        substr = myCode[j:j + length]
 
+        # substring must exist in dictionary AND must fit inside code
+        if substr not in myDict or j + length > mySize:
+            return 0
+
+        # base case: starting at index 0
+        if j == 0:
+            return 1
+
+        total = 0
+        # Add contributions from previous valid states
+        if j - 1 >= 0: total += dp[0][j - 1]
+        if j - 2 >= 0: total += dp[1][j - 2]
+        if j - 3 >= 0: total += dp[2][j - 3]
+        return total
+
+    # Fill DP table
     for j in range(mySize):
-        # print('1:', myCode[j: j + 1], '2:', myCode[j: j + 2], '3', myCode[j: j + 3])
-        row1 = myCode[j: j + 1]
-        row2 = myCode[j: j + 2]
-        row3 = myCode[j: j + 3]
-        
-        if row1 in myDict:
-            if j > 2:
-                myList[0][j] =  myList[0][j - 1] +  myList[1][j - 2] + myList[2][j - 3]
-            elif j > 1:
-                myList[0][j] =  myList[0][j - 1] +  myList[1][j - 2]
-            elif j > 0:
-                myList[0][j] =  myList[0][j - 1]
-            else:
-                myList[0][j] = 1
+        for row in range(3):
+            dp[row][j] = update(row, j)
 
-            pass
-        offset2 = mySize - 1
-        if row2 in myDict and j < offset2:
-            if j > 2:
-                myList[1][j] =  myList[0][j - 1] +  myList[1][j - 2] + myList[2][j - 3]
-            elif j > 1:
-                myList[1][j] =  myList[0][j - 1] +  myList[1][j - 2]
-            elif j > 0:
-                myList[1][j] =  myList[0][j - 1]
-            else:
-                myList[1][j] = 1
-            pass
-        offset3 = offset2 - 1
-        if row3 in myDict and j < offset3:
-            if j > 2:
-                myList[2][j] =  myList[0][j - 1] +  myList[1][j - 2] + myList[2][j - 3]
-            elif j > 1:
-                myList[2][j] =  myList[0][j - 1] +  myList[1][j - 2]
-            elif j > 0:
-                myList[2][j] =  myList[0][j - 1]
-            else:
-                myList[2][j] = 1
-            pass
+    # Final answer = sum of last valid diagonal
+    ans = 0
+    if mySize - 1 >= 0: ans += dp[0][mySize - 1]
+    if mySize - 2 >= 0: ans += dp[1][mySize - 2]
+    if mySize - 3 >= 0: ans += dp[2][mySize - 3]
 
-    myAns = myList[0][-1] + myList[1][-2] + myList[2][-3]
-    print(myAns)   
+    print('The Number of Vowel combinations is:', ans)
+
     
 
 

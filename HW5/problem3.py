@@ -11,12 +11,12 @@ def longestSequence(A, B):
             if i == j:
                 continue  # skip same index pairs
 
-            # From B[j] → A[i] (must have j < i for subsequence order)
+            # From B[j] to A[i] (must have j < i for subsequence order)
             if j < i and B[j] < A[i]:
                 if len(dpB[j]) + 1 > len(dpA[i]):
                     dpA[i] = dpB[j] + [A[i]]
 
-            # From A[i] → B[j] (must have i < j for subsequence order)
+            # From A[i] to B[j] (must have i < j for subsequence order)
             if i < j and A[i] < B[j]:
                 if len(dpA[i]) + 1 > len(dpB[j]):
                     dpB[j] = dpA[i] + [B[j]]
@@ -60,6 +60,6 @@ if __name__ == '__main__':
                     
       
         sequences = longestSequence(list1, list2)
-        for s in sequences:
-            print(s)
-        print(f"\nTotal sequences: {len(sequences)}")
+        # for s in sequences:
+        #     print(s)
+        print(f"Longest sequences: {len(sequences)}")

@@ -17,21 +17,23 @@ def myFunction(myArray):
             x = e[0]
             y = e[1]
             # print(x, y)
+            # myArray[x][y] = 'i' # Uncomment to run normally -- not part of original submission
+
             isInfected = 'i'
             try:
                 if isInfected == myArray[x][y + 2]: # checked
                     if myArray[x][y + 1] != 'i':
-                        myArray[x][y + 1] = 'i'
+                        myArray[x][y + 1] = 'i' # comment to run normally
                         newList.append((x, y + 1))
             except IndexError:
                 pass
             try:
                 if isInfected ==  myArray[x - 1][y + 1] and x - 1 > -1:
                     if myArray[x][y + 1] != 'i':
-                        myArray[x][y + 1] = 'i'
+                        # myArray[x][y + 1] = 'i'
                         newList.append((x, y + 1))
                     if myArray[x - 1][y] != 'i':
-                        myArray[x - 1][y] = 'i'
+                        # myArray[x - 1][y] = 'i'
                         newList.append((x - 1, y))
                     
             except IndexError:
@@ -39,44 +41,44 @@ def myFunction(myArray):
             try:
                 if isInfected == myArray[x + 1][y + 1]: # checked
                     if myArray[x][y + 1] != 'i':
-                        myArray[x][y + 1] = 'i'
+                        # myArray[x][y + 1] = 'i'
                         newList.append((x, y + 1))
                     if myArray[x + 1][y] != 'i':
-                        myArray[x + 1][y] = 'i'
+                        # myArray[x + 1][y] = 'i'
                         newList.append((x + 1, y))
             except IndexError:
                 pass
             try:
                 if isInfected == myArray[x - 2][y] and x - 2 > -1: # checked
                     if myArray[x - 1][y] != 'i':
-                        myArray[x - 1][y] = 'i'
+                        # myArray[x - 1][y] = 'i'
                         newList.append((x - 1, y))
             except IndexError:
                 pass
             try:
                 if isInfected ==  myArray[x + 2][y]: # checked
                     if myArray[x + 1][y] != 'i':
-                        myArray[x + 1][y] = 'i'
+                        # myArray[x + 1][y] = 'i'
                         newList.append((x + 1, y))
             except IndexError:
                 pass
             try:
                 if isInfected ==  myArray[x - 1][y - 1] and x - 1 > -1 and y - 1 > -1:
                     if myArray[x - 1][y] != 'i':
-                        myArray[x - 1][y] = 'i'
+                        # myArray[x - 1][y] = 'i'
                         newList.append((x - 1, y))
                     if myArray[x][y - 1] != 'i':
-                        myArray[x][y - 1] = 'i'
+                        # myArray[x][y - 1] = 'i'
                         newList.append((x, y - 1))
             except IndexError:
                 pass
             try:
                 if isInfected ==  myArray[x + 1][y  - 1] and y - 1 > -1:
                     if myArray[x + 1][y] != 'i':
-                        myArray[x + 1][y] = 'i'
+                        # myArray[x + 1][y] = 'i'
                         newList.append((x + 1, y))
                     if myArray[x][y - 1] != 'i':
-                        myArray[x][y - 1] = 'i'
+                        # myArray[x][y - 1] = 'i'
                         newList.append((x, y - 1))
 
             except IndexError:
@@ -84,7 +86,7 @@ def myFunction(myArray):
             try:
                 if isInfected ==  myArray[x][y - 2] and y - 2 > -1: # checked
                     if myArray[x][y - 1] != 'i':
-                        myArray[x][y - 1] = 'i'
+                        # myArray[x][y - 1] = 'i'
                         newList.append((x, y - 1))
             except IndexError:
                 pass
