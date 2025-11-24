@@ -34,7 +34,6 @@ def radixSort(myList):
     for i in range(len(myList)):
         if myList[i] > largestElement:
             largestElement = myList[i]
-    
 
     exp = 1
     while largestElement / exp >= 1:

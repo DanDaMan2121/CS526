@@ -12,6 +12,7 @@ def stableMatching(menDict, womenDict):
     while freeMen:
         man = freeMen.pop(0)
         manPrefList = menDict[man]
+        
         for woman in manPrefList:
             if woman not in proposalsMade[man]:
                 proposalsMade[man].append(woman)
