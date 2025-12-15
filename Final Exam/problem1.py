@@ -44,72 +44,89 @@ class Crack:
     def __repr__(self):
         return f'Crack({self.crackSize})'
     
-def villageGame(threshold, drain): # trash
+def village(threshold, drain):
     totalWater = 0
     maxWater = 0
     waterFlow = 0
+    count = 0
     previousKey = None
+
     myHeap = MaxHeap()
+    
     for key in myDict:
         myList = myDict[key]
         if previousKey != None:
-            
+            # print(f'Key: {key} PreviousKey: {previousKey}')
             diff = int(key) - int(previousKey) - 1
-            for i in range(diff):
-                isEmpty = myHeap.is_empty()
-                if not isEmpty:
-                    myHeap.step(1)
-                    waterFlow += myHeap.size()
 
-                    topVal = myHeap.pop()
-                    waterFlow -= topVal
-                    print(f'waterFlow: {waterFlow}')
-                    print(myHeap._heap)
+            for i in range(diff):
+                # waterFlow at current time
+                if count != 0:
+                    myLargestValue = myHeap.pop()
+                    waterFlow -= myLargestValue
+                    count -= 1
                     totalWater += waterFlow - drain
-                    # print(f'totalWater: {totalWater}')
-                    if totalWater > maxWater:
-                        maxWater = totalWater
-                    if totalWater >= threshold:
-                        return ('FLOOD')
+                    # print(f'totalWater: {totalWater} at time:{int(previousKey) + i}')
+                    # next round prep
+                    waterFlow += count
+                    myHeap.step(1)
                 else:
-                    totalDrain = drain * (diff - i)
-                    totalWater -= totalDrain
+                    # print('offset')
+                    timeMultipler = diff - i
+                    totalWater -= (drain * timeMultipler)
                     if totalWater < 0:
                         totalWater = 0
+                    # print(f'totalWater: {totalWater} at time:{int(previousKey) + i}')
                     break
-            myHeap.step(1)
-            waterFlow += myHeap.size()
+                
+                if totalWater >= threshold:
+                    return f'FLOOD\n{int(previousKey) + i + 1}\n{totalWater}'
+                if totalWater > maxWater:
+                    maxWater = totalWater            
+        
+        # this gets me the value at time t
         for e in myList:
+            count += 1
             waterFlow += int(e.crackSize)
             myHeap.push(int(e.crackSize))
-        # water = sum of the nodes + size of the list - top value in heap
-        topVal = myHeap.pop()
-        waterFlow -= topVal
-        totalWater += waterFlow
-        totalWater -= drain
+        # everytime we pop we subtract from the count and from the waterFlow
+        myLargestValue = myHeap.pop()
+        waterFlow -= myLargestValue
+        count -= 1
 
+        totalWater += waterFlow - drain
+        if totalWater < 0:
+            totalWater = 0
+        # print(f'totalWater: {totalWater} at time:{int(key)}')
+
+        if totalWater >= threshold:
+            return f'FLOOD\n{key}\n{totalWater}'
         if totalWater > maxWater:
             maxWater = totalWater
-        if totalWater >= threshold:
-            return ('FLOOD')
+
+        waterFlow += count
+        myHeap.step(1)
         previousKey = key
-        print(f'totalWater: {totalWater} waterFlow: {waterFlow}')
-        print(myHeap._heap)
-    
-    length = myHeap.size()
+
+    length = count
     for i in range(length):
-        topVal = myHeap.pop()
-        waterFlow -= topVal
-        totalWater += waterFlow
-        totalWater -= drain
+        myLargestValue = myHeap.pop()
+        waterFlow -= myLargestValue
+        count -= 1
+        totalWater += waterFlow - drain
+
+        # next round prep
+        waterFlow += count
+        myHeap.step(1)
+
+        if totalWater >= threshold:
+            return f'FLOOD\n{int(previousKey) + i + 1}\n{totalWater}'
         if totalWater > maxWater:
             maxWater = totalWater
-        if totalWater >= threshold:
-            return ('FLOOD')
-        
-    return ('SAFE', maxWater)
+    
+    return f'SAFE\n{maxWater}'
 
-              
+        
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
@@ -138,68 +155,11 @@ if __name__ == '__main__':
                         myList = myDict[myTuple[0]]
                         myList.append(currentCrack)
                     # print(currentCrack)
+        myResult = village(maxWaterVolume, villageDrain)
+        print(myResult)
 
-        count = 0
-        maxVal = 0
-        totalWaterVolume = 0
-        currentWaterVolume = 0
-        result = 'SAFE'
-        myMaxHeap = MaxHeap()
-        
-        while not myMaxHeap.is_empty() or numberOfCracks > 0:
-            myStr = str(count)
-            # print(f'count: {count}, cracks: {numberOfCracks}, empty: {myMaxHeap.is_empty()}')
-            timeOffset = 0
-            # If there are numbers then I can pop
-            if myStr in myDict:
-                myList = myDict[myStr]
-                length = len(myList)
-                numberOfCracks -= length
-                # print(f'numberOfCracks: {numberOfCracks}')
-                # print(f'Added: {myList}')
-                for i in range(length):
-                    currentCrack = myList[i]
-                    currentSize = int(currentCrack.crackSize)
-                    currentWaterVolume += currentSize
-                    myMaxHeap.push(currentSize)
-                crackFixed = myMaxHeap.pop()
-                currentWaterVolume -= crackFixed
-                timeOffset = myMaxHeap.size()
-            else:
-                emptyHeap = myMaxHeap.is_empty()
-                if not emptyHeap:
-                    # print('HEAP IS NOT EMPTY')
-                    crackFixed = myMaxHeap.pop()
-                    currentWaterVolume -= crackFixed
-                    timeOffset = myMaxHeap.size()
-    
 
-            totalWaterVolume += currentWaterVolume - villageDrain
-         
-            if totalWaterVolume < 0:
-                totalWaterVolume = 0
-            
-            if totalWaterVolume > maxVal:
-                maxVal = totalWaterVolume
-            
-            myMaxHeap.step(1)
-            
-            if totalWaterVolume >= maxWaterVolume:
-                # print(f'time: {count}')
-                result = 'FLOOD'
-                break
-            
-            if myMaxHeap.is_empty() and numberOfCracks < 1:
-                break
-                
-          
-            currentWaterVolume += timeOffset
-            count += 1
-     
-        if result == 'FLOOD':
-            print(result)
-            print(count)
-            print(totalWaterVolume)
-        else:
-            print(result)
-            print(maxVal)
+
+
+
+
